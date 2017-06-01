@@ -28,8 +28,12 @@ char* fd_http_get(FDWSCtx *ctx)
     if(ctx->sockfd<0)
         return NULL;
 
-    char *header = fd_http_default_header(ctx->path,ctx->host,"ezMcxP7L/TFzSga1ISrfKz+BDcA=",ctx->origin);
+    char *headerTemp = fd_http_default_header(ctx->path,ctx->host,"ezMcxP7L/TFzSga1ISrfKz+BDcA=",ctx->origin);
+    char *header = (char*)malloc(strlen(headerTemp)+3);
+    memset(header,0,strlen(headerTemp+3));
+    strcat(header,headerTemp);
     strcat(header,RET);
+    free(headerTemp);
     int error = 0;
     int ret = fd_socket_send(ctx->sockfd,header,strlen(header),&error);
     if (ret == -1)
@@ -128,6 +132,7 @@ char* fd_http_default_header(const char *path,const char *host,const char *wsKey
     strcat(result,RET);
     size_t len = strlen(result);
     char * header = (char*)malloc(len);
+    memset(header,0,len+1);
     memcpy(header,result,len);
     return header;
 }

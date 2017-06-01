@@ -240,7 +240,7 @@ int fd_ws_send(FDWSCtx *ctx, FDWSMSG* msg){
 
     if(msg->hasmask)
     {
-        memcpy(&hbuf[offset],msg->mask,4);
+      memcpy(&hbuf[offset],msg->mask,4);
         offset+=4;
     }
 
@@ -254,8 +254,7 @@ int fd_ws_send(FDWSCtx *ctx, FDWSMSG* msg){
         }
     }
 
-   // ret = fd_socket_send(ctx->sockfd,msg->payload,(int)msg->payloadLen,&error);
-    //ret = fd_socket_send(ctx->sockfd,hbuf,offset,&error);
+   // ret = fd_socket_send(ctx->sockfd,hbuf,offset,&error);
     unsigned  char *sbuf = (unsigned char*)malloc(msg->payloadLen+offset);
     memcpy(sbuf,hbuf,offset);
     memcpy(sbuf+offset,msg->payload,msg->payloadLen);
