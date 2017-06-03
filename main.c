@@ -9,15 +9,10 @@ int main()
 {
     FDWSCtx *ctx = fd_ws_init();
     char * abc = "{\"cmd\":\"text\",\"data\":\"123abc send by libfdws\",\"type\":\"multi\",\"channel\":{\"id\":\"001\"}}";
-    //fd_ws_connect("http://118.190.79.29:123",ctx);
     fd_ws_connect("http://localhost/001?name=ff1234",ctx);
-    //fd_ws_connect("http://118.190.79.29/001?name=ff1234",ctx);
     FDWSMSG *msg = fd_msg_alloc();
     fd_ws_read_frame(ctx,msg);
     printf("Read %s\n",msg->payload);
-   // fd_msg_release(msg);
-//    msg = fd_msg_alloc();
-//    fd_ws_read_frame(ctx,msg);
 
 
     while (1)
@@ -27,6 +22,7 @@ int main()
         memset(buf,0,msg->payloadLen+1);
         memcpy(buf,msg->payload,msg->payloadLen);
         printf("Read %s\n",buf);
+        printf("");
         free(buf);
         FDWSMSG *sMsg = fd_msg_alloc();
         sMsg->FIN = 1;
@@ -43,6 +39,5 @@ int main()
         free(sMsg);
         sleep(1);
     }
-   // fd_http_get("http://118.190.79.29/001?name=游客40");
 	return 0;
 }
